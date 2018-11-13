@@ -212,10 +212,10 @@ void shellSort(int *vetor, int tam) {
 			 while (j >= 0 && value < vetor[j]){ 
 				 vetor[j + gap] = vetor[j];
 				 j -= gap;
-				 troca++;
+				 
 			 }
 			 vetor[j + gap] = value;
-			 
+			troca++; 
 		 }
 	 }
 }
