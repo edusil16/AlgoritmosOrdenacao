@@ -43,7 +43,7 @@ int main(){
 	do{
 	
 	printf("\n\n Escolha uma Opção:");
-	printf("\n 1. Selection Sort, \n 2. Insertion Sort, \n 3. Quick Sort, \n 4. Merge Sort, \n 5. Shell Sort, \n 6. Bubble Sort, \n 7. Heap Sort, \n 0. Exibir Numeros ......  ");
+	printf("\n 1. Selection Sort \n 2. Insertion Sort \n 3. Bubble Sort \n 4. Quick Sort \n 5. Shell Sort \n 6. Merge Sort \n 7. Heap Sort \n 0. Exibir Numeros ......  ");
     scanf("%d",&escolha);
 	
 	printf("\n\n");
@@ -63,10 +63,10 @@ int main(){
 		case 4: quickSort(vetor,d,e);
 				imprimevetor(vetor,padrao);
 				break;
-		case 5: mergeSort(vetor,padrao);
+		case 5: shellSort(vetor,padrao);
 				imprimevetor(vetor,padrao);
 				break;
-		case 6: shellSort(vetor,padrao);
+		case 6: mergeSort(vetor,padrao);
 				imprimevetor(vetor,padrao);
 				break;
 		case 7: heapSort(vetor,padrao);
@@ -144,7 +144,7 @@ void insertionSort(int vetor[], int tam){
 			comparacao++;
 			vetor[i + 1] = vetor[i];
 			i = i - 1;
-			troca++;
+		troca++;
 		 }
 	 	vetor[i + 1] = key;
 	 	
@@ -154,28 +154,78 @@ void insertionSort(int vetor[], int tam){
 
 }
 
-void quickSort(int vetor[], int esquerda, int direita) {
- int i, j, x, y;
- i = esquerda;
- j = direita;
- x = vetor[(esquerda + direita) / 2];
- while(i <= j)
- { while(vetor[i] < x && i < direita)
- { i++; }
- while(vetor[j] > x && j > esquerda)
- { j--; }
- if(i <= j)
- { y = vetor[i];
- vetor[i] = vetor[j];
- vetor[j] = y;
- i++;
- j--;
- }
- }
- if(j > esquerda) { quickSort(vetor, esquerda, j); }
- if(i < direita) { quickSort(vetor, i, direita); }
+void bubbleSort (int vetor[], int n) {
+    int k, j, aux;
+
+    for (k = 1; k < n; k++) {
+
+        for (j = 0; j < n - 1; j++) { 
+               comparacao++;      
+            if (vetor[j] > vetor[j + 1]){  
+                aux=vetor[j];
+                vetor[j]=vetor[j + 1];
+                vetor[j+1] = aux;
+                troca++; 
+            }
+        }
+    } 
 }
 
+void quickSort(int vetor [], int esquerda, int direita) {
+    int i, j, x, y;
+     
+    i = esquerda;
+    j = direita;
+    x = vetor[(esquerda + direita) / 2];
+     
+    while(i <= j) {
+        while(vetor[i] < x && i < esquerda) {
+            i++;
+        }
+        while(vetor[j] > x && j > direita) {
+            j--;
+        }
+        if(i <= j) {
+            y = vetor[i];
+            vetor[i] = vetor[j];
+            vetor[j] = y;
+            i++;
+            j--;
+        }
+    }
+     
+    if(j > esquerda) {
+        quickSort(vetor, esquerda, j);
+    }
+    if(i < direita) {
+        quickSort(vetor, i, direita);
+    }
+}
+
+void shellSort(int *vetor, int tam) {
+	 int i , j , value;
+	 int gap = 1;
+	 
+	 while (gap < tam){
+		gap = 3*gap+1; 
+	}
+	 while (gap > 1) {
+		 gap /= 3;
+		 
+		 for(i = gap; i < tam; i++) { 
+			 value = vetor[i];
+			 j = i - gap;
+			 	 comparacao++;
+			 while (j >= 0 && value < vetor[j]){ 
+				 vetor[j + gap] = vetor[j];
+				 j -= gap;
+				 troca++;
+			 }
+			 vetor[j + gap] = value;
+			 
+		 }
+	 }
+}
 
 void merge(int vetor[], int tam) {
 	 int mid;
@@ -193,10 +243,10 @@ void merge(int vetor[], int tam) {
 	 j = mid;
 	 k = 0;
 	 
-	 comparacao++;
-	 while (i < mid && j < tam){
+	 
+	 while (i < mid && j < tam){ 
 	 	 
-		 if (vetor[i] <= vetor[j]){
+		 if (vetor[i] <= vetor[j]){ 
 		 	tmp[k] = vetor[i++]; 
 		 }
 		 else{
@@ -208,7 +258,7 @@ void merge(int vetor[], int tam) {
 	 
 	 
 	 if (i == mid) {
-	 	while (j < tam) { 
+	 	while (j < tam) { comparacao++;
 		 	tmp[k++] = vetor[j++];
 		 }
 	 } else {
@@ -217,11 +267,11 @@ void merge(int vetor[], int tam) {
 		 }
 	 }
 	 
-	 for (i = 0; i < tam; ++i) {
+	 for (i = 0; i < tam; ++i) { troca++;
 	 	vetor[i] = tmp[i];
 	 }
 	 
-	 free(tmp);
+	 free(tmp); 
 }
 
 
@@ -236,52 +286,11 @@ void mergeSort(int vetor[], int tam) {
  	}
 }
 
-void shellSort(int *vetor, int tam) {
-	 int i , j , value;
-	 int gap = 1;
-	 
-	 while (gap < tam){
-		gap = 3*gap+1; 
-	}
-	 while (gap > 1) {
-		 gap /= 3;
-		 
-		 for(i = gap; i < tam; i++) {
-			 value = vetor[i];
-			 j = i - gap;
-			 
-			 while (j >= 0 && value < vetor[j]) {
-				 vetor[j + gap] = vetor[j];
-				 j -= gap;
-			 }
-			 vetor[j + gap] = value;
-		 }
-	 }
-}
-
-
-void bubbleSort (int vetor[], int n) {
-    int k, j, aux;
-
-    for (k = 1; k < n; k++) {
-
-        for (j = 0; j < n - 1; j++) {
-           
-           	comparacao++;
-            if (vetor[j] > vetor[j + 1]) {
-                aux=vetor[j];
-                vetor[j]=vetor[j + 1];
-                vetor[j+1] = aux;
-                troca++;
-            }
-        }
-    }
-}
 
 void heapSort(int vetor[], int tam){
 	 int i = tam/2, pai, filho, t, tt=tam-1;
 	 
-	for (;;){
+	for (;;){ troca++;
 		if (i > 0)
 		{ i--;
 		t = vetor[i]; }
@@ -306,7 +315,7 @@ void heapSort(int vetor[], int tam){
 	
 	 pai = i;
 	 filho = i*2; 
-	while (filho < tam){ 
+	while (filho < tam){ comparacao++;
 		if ((filho + 1 < tam) && (vetor[filho + 1] > vetor[filho])){
 			filho++;
 		}
@@ -345,5 +354,3 @@ void ler(int vetor){
 		vetor=num[i].numero;
 	}
 }
-
-
