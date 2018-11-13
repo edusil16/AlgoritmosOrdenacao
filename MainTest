@@ -13,7 +13,7 @@ ALUNOS: EDUARDO SILVA DOS SANTOS
 #include <stdlib.h>
 #include <time.h>
 #include <locale.h>
-#define padrao 10
+#define padrao 3
 
 struct numero{
 	int numero;
@@ -60,7 +60,7 @@ int main(){
 		case 3: bubbleSort(vetor,padrao);
 				imprimevetor(vetor,padrao);
 				break;
-		case 4: quickSort(vetor,d,e);
+		case 4: quickSort(vetor, 0, padrao-1);
 				imprimevetor(vetor,padrao);
 				break;
 		case 5: shellSort(vetor,padrao);
@@ -171,35 +171,28 @@ void bubbleSort (int vetor[], int n) {
     } 
 }
 
-void quickSort(int vetor [], int esquerda, int direita) {
-    int i, j, x, y;
-     
-    i = esquerda;
-    j = direita;
-    x = vetor[(esquerda + direita) / 2];
-     
-    while(i <= j) {
-        while(vetor[i] < x && i < esquerda) {
-            i++;
-        }
-        while(vetor[j] > x && j > direita) {
-            j--;
-        }
-        if(i <= j) {
-            y = vetor[i];
-            vetor[i] = vetor[j];
-            vetor[j] = y;
-            i++;
-            j--;
-        }
-    }
-     
-    if(j > esquerda) {
-        quickSort(vetor, esquerda, j);
-    }
-    if(i < direita) {
-        quickSort(vetor, i, direita);
-    }
+void quickSort(int vetor[], int esquerda, int direita) {
+ int i, j, x, y;
+ i = esquerda;
+ j = direita;
+ x = vetor[(esquerda + direita) / 2];
+ while(i <= j) 
+ { comparacao++;
+  while(vetor[i] < x && i < direita)
+ { i++; }
+ while(vetor[j] > x && j > esquerda)
+ { j--; }
+ if(i <= j) 
+ { y = vetor[i];
+ vetor[i] = vetor[j];
+ vetor[j] = y;
+ i++;
+ j--;
+	troca++;
+ }
+ }
+ if(j > esquerda) { quickSort(vetor, esquerda, j); }
+ if(i < direita) { quickSort(vetor, i, direita); }
 }
 
 void shellSort(int *vetor, int tam) {
